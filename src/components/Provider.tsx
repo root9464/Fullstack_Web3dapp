@@ -10,7 +10,6 @@ declare module '@tanstack/react-router' {
 
 const queryClient = new QueryClient();
 const router = createRouter({ routeTree });
-
 export const Provider = () => {
   return (
     <QueryClientProvider client={queryClient}>
