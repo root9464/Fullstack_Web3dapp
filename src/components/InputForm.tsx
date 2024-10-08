@@ -1,5 +1,5 @@
 import { toNano } from '@ton/core';
-import { SendTransactionRequest, useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
+import { SendTransactionRequest, useTonConnectUI } from '@tonconnect/ui-react';
 import { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import TonLogo from '../assets/ton.png';
@@ -8,7 +8,6 @@ interface IForm {
 }
 
 export const InputForm = () => {
-  const address = useTonAddress();
   const [tonConnectUI] = useTonConnectUI();
 
   const [activeButton, setActiveButton] = useState(1);
@@ -25,7 +24,7 @@ export const InputForm = () => {
       validUntil: Math.floor(Date.now() / 1000) + 60,
       messages: [
         {
-          address: import.meta.env.VITE_ADDRESS as string,
+          address: String(import.meta.env.VITE_ADDRESS_WALLET),
           amount: toNano(data.value).toString(),
         },
       ],
@@ -36,8 +35,6 @@ export const InputForm = () => {
       console.log(res);
     }
   };
-
-  console.log(import.meta.env.VITE_ADDRESS);
 
   return (
     <form className='w-full h-max mt-4 bg-uiGrayGradient flex flex-col gap-3 rounded-32 px-5 py-4' onSubmit={handleSubmit(onSubmit)}>
@@ -63,7 +60,7 @@ export const InputForm = () => {
             defaultValue={1}
             {...register('value', {
               required: true,
-              min: 1,
+              min: 0.01,
               max: 8594,
             })}
             className={`w-[110px] bg-[#3F3F3F] rounded-[4px] border outline-none px-2 py-1 text-sm ${errors.value ? 'border-red-500' : 'border-[#818181]'}`}

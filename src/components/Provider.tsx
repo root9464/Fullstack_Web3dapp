@@ -14,7 +14,7 @@ const router = createRouter({ routeTree });
 export const Provider = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <TonConnectUIProvider manifestUrl='https://<YOUR_APP_URL>/tonconnect-manifest.json'>
+      <TonConnectUIProvider manifestUrl='https://taiga-labs.github.io/dexlot.json'>
         <RouterProvider router={router} />
       </TonConnectUIProvider>
     </QueryClientProvider>
