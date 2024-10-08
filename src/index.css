@@ -1,0 +1,22 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+@font-face {
+  font-family: 'Climate Crisis';
+  src: url('./assets/fonts/ClimateCrisis.ttf');
+}
+
+
+@layer base {
+  body {
+    @apply bg-uiMainBgColor relative no-underline text-white w-screen px-6;
+  }
+}
+
+.go3572451881 {
+  button {
+    @apply bg-uiPurple text-white rounded-full px-6 py-2 text-[16px]
+  }
+}
