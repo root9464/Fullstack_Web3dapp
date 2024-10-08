@@ -3,11 +3,15 @@ import { Header } from '../components/Header';
 import { Menu } from '../components/Menu';
 
 export const Route = createRootRoute({
-  component: () => (
+  component: () => <Layout />,
+});
+
+const Layout = () => {
+  return (
     <>
       <Header />
       <Outlet />
       <Menu />
     </>
-  ),
-});
+  );
+};
