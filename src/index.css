@@ -11,7 +11,7 @@
 
 @layer base {
   body {
-    @apply bg-uiMainBgColor relative no-underline text-white w-screen h-screen px-6;
+    @apply bg-uiMainBgColor no-underline text-white w-screen;
   }
 }
 

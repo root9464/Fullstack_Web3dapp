@@ -1,10 +1,34 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
 import { FC, useState } from 'react';
+import { SubmitHandler, useForm } from 'react-hook-form';
 import TonLogo from '../assets/ton.png';
+
+interface IForm {
+  value: number;
+}
+
 export const InputForm = () => {
+  const address = useTonAddress();
+  const [tonConnectUI] = useTonConnectUI();
+
   const [activeButton, setActiveButton] = useState(1);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<IForm>({
+    mode: 'onChange',
+  });
+  const value = Number(watch('value', 1));
+
+  const onSubmit: SubmitHandler<IForm> = async (data) => {
+    console.log(data);
+  };
 
   return (
-    <div className='w-full h-max mt-4 bg-uiGrayGradient flex flex-col gap-3 rounded-32 px-5 py-4'>
+    <form className='w-full h-max mt-4 bg-uiGrayGradient flex flex-col gap-3 rounded-32 px-5 py-4' onSubmit={handleSubmit(onSubmit)}>
       <h2 className='text-2xl font-climate'>Market Overview</h2>
 
       <div className='w-full h-8 px-2 py-1 flex flex-row gap-x-1 bg-uiLowGray rounded-32'>
@@ -20,14 +44,27 @@ export const InputForm = () => {
 
       <div className='w-full h-max px-4 py-5 flex flex-col gap-2 bg-uiLowGray rounded-32'>
         <HeaderForm activeButton={activeButton} />
-        <input
-          type='text'
-          placeholder='Amount'
-          className='w-[110px] bg-[#3F3F3F] rounded-[4px] border border-[#818181] outline-none px-2 py-1 text-sm'
-        />
-        <p className='text-gray-400 text-xs'>Min. 1 - Max. 8594</p>
+        <div className='w-full h-fit flex flex-row items-center gap-3'>
+          <input
+            type='text'
+            placeholder='Amount'
+            defaultValue={1}
+            {...register('value', {
+              required: true,
+              min: 1,
+              max: 8594,
+            })}
+            className={`w-[110px] bg-[#3F3F3F] rounded-[4px] border outline-none px-2 py-1 text-sm ${errors.value ? 'border-red-500' : 'border-[#818181]'}`}
+          />
+          <button type='submit' className='w-max bg-uiPurple text-white rounded-[4px] px-3 py-1 text-sm'>
+            Buy
+          </button>
+        </div>
+        <p className={`text-xs ${errors.value ? 'text-red-500' : 'text-gray-400'}`}>
+          {errors.value ? 'Amount must be between 1 and 8594' : 'Min. 1 - Max. 8594'}
+        </p>
       </div>
-    </div>
+    </form>
   );
 };
 
