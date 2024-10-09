@@ -15,7 +15,7 @@ const router = createRouter({ routeTree });
 export const Provider = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <TonConnectUIProvider manifestUrl='https://taiga-labs.github.io/dexlot.json'>
+      <TonConnectUIProvider manifestUrl='https://github.com/root9464/React_R/blob/main/manifest.json'>
         <RouterProvider router={router} />
         <ReactQueryDevtools initialIsOpen={false} />
       </TonConnectUIProvider>
