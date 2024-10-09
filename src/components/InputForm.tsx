@@ -1,16 +1,28 @@
-import { toNano } from '@ton/core';
-import { SendTransactionRequest, useTonConnectUI } from '@tonconnect/ui-react';
+import { Temporal } from '@js-temporal/polyfill';
+import { Cell, toNano } from '@ton/core';
+import { SendTransactionRequest, useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
+import axios from 'axios';
+import { Buffer } from 'buffer';
 import { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import TonLogo from '../assets/ton.png';
+
 interface IForm {
   value: number;
 }
 
 export const InputForm = () => {
   const [tonConnectUI] = useTonConnectUI();
-
+  const address = useTonAddress();
   const [activeButton, setActiveButton] = useState(1);
+  const initDataNow = Temporal.Now.zonedDateTimeISO('Europe/Moscow');
+  const dateTimeNow = Temporal.ZonedDateTime.from(initDataNow);
+  const formattedDateNow = `${dateTimeNow.day}.${dateTimeNow.month}.${dateTimeNow.year}::${dateTimeNow.hour}:${dateTimeNow.minute}:${dateTimeNow.second}`;
+
+  const added30Days = initDataNow.add({ days: activeButton === 1 ? 1 : activeButton === 7 ? 9 : 40 });
+  const dateTimePlus30Days = Temporal.ZonedDateTime.from(added30Days);
+  const formattedDateEnd = `${dateTimePlus30Days.day}.${dateTimePlus30Days.month}.${dateTimePlus30Days.year}::${dateTimePlus30Days.hour}:${dateTimePlus30Days.minute}:${dateTimePlus30Days.second}`;
+
   const {
     register,
     handleSubmit,
@@ -32,7 +44,20 @@ export const InputForm = () => {
     const res = await tonConnectUI.sendTransaction(transaction);
 
     if (res) {
-      console.log(res);
+      const json = {
+        header: {
+          hash: Cell.fromBoc(Buffer.from(res.boc, 'base64'))[0].hash().toString('hex'),
+        },
+        body: {
+          UserWalletAddress: 'UQDyqtADIvFITLkNEOneET7-7pZ73EDkukL7Ru8_XDul5rrG',
+          DepositeDate: formattedDateNow,
+          ReceivingDate: formattedDateEnd,
+          Amount: data.value,
+          Rewards: data.value * Math.pow(1 + activeButton / 100, 1), //1day = amount + 1%
+        },
+      };
+
+      axios.post('https://localhost/api/transaction', json);
     }
   };
 
