@@ -15,18 +15,18 @@ services:
     ports:
       - 5432:5432
 
-  # app:
-  #   build: ./app
-  #   container_name: go-app
-  #   depends_on:
-  #     - db
-  #   environment:
-  #     DB_URL: postgres://myuser:mypassword@db:5432/mydb?sslmode=disable
-  #     PORT: 8080
-  #   networks:
-  #     - app-network
-  #   expose:
-  #     - '8080'
+  app:
+    build: ./app
+    container_name: go-app
+    depends_on:
+      - db
+    environment:
+      DB_URL: postgres://myuser:mypassword@db:5432/mydb?sslmode=disable
+      PORT: 8080
+    networks:
+      - app-network
+    expose:
+      - '8080'
 
   # nginx:
   #   image: nginx:alpine
