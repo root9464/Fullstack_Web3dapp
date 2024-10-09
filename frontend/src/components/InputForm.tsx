@@ -113,7 +113,7 @@ const HeaderForm: FC<{ activeButton: number }> = ({ activeButton }) => {
   const { data, isLoading, isSuccess } = getStatisticsValues();
 
   return (
-    <div className='w-full h-full flex flex-row justify-between'>
+    <div className='w-full h-full flex flex-row justify-between relative'>
       <div className='w-max h-full flex flex-row items-center gap-x-3'>
         <img src={TonLogo} alt='' className='w-5' />
         <h2>TON</h2>
@@ -121,6 +121,9 @@ const HeaderForm: FC<{ activeButton: number }> = ({ activeButton }) => {
       <div className='w-max h-full flex flex-row items-center gap-x-3'>
         <p>${isLoading ? 'Loading...' : isSuccess && data ? data[2].Total : '0'}К</p>
         <p>${activeButton === 1 ? 1 : activeButton === 7 ? 9 : 40}%</p>
+      </div>
+      <div className='w-max h-full flex flex-row items-center gap-x-3 border border-[#0FA958] rounded-md absolute right-0 top-8'>
+        <p>+ {activeButton}</p>
       </div>
     </div>
   );
