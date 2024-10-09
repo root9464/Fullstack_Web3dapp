@@ -1,0 +1,10 @@
+services:
+  front:
+    image: front
+    container_name: front
+    restart: no
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
