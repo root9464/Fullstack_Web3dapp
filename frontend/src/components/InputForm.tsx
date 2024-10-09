@@ -37,7 +37,7 @@ export const InputForm = () => {
       validUntil: Math.floor(Date.now() / 1000) + 60,
       messages: [
         {
-          address: 'UQDyqtADIvFITLkNEOneET7-7pZ73EDkukL7Ru8_XDul5rrG',
+          address: import.meta.env.VITE_ADDRESS_WALLET,
           amount: toNano(data.value).toString(),
         },
       ],
