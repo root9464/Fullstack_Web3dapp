@@ -14,7 +14,7 @@ services:
       - 5432:5432
 
   app:
-    build: ./app
+    build: ./backend/app
     container_name: go-app
     depends_on:
       - db
