@@ -7,6 +7,7 @@ import { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { getStatisticsValues } from '../api/getStatisticsValues';
 import TonLogo from '../assets/ton.png';
+import { port } from '../constants/const.g';
 
 interface IForm {
   value: number;
