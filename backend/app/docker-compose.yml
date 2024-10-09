@@ -4,6 +4,7 @@ services:
     image: go-back
     build: .
     container_name: go-back
+    command: ./main
     expose:
       - '8080'
     ports:
