@@ -6,7 +6,7 @@ import { defineConfig } from 'vite';
 export default defineConfig({
   plugins: [react(), TanStackRouterVite()],
   server: {
-    port: 8080,
+    port: 8085,
     host: '0.0.0.0',
   },
 });
