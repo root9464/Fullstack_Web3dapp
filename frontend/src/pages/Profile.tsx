@@ -3,6 +3,7 @@ import { useTonAddress } from '@tonconnect/ui-react';
 import axios from 'axios';
 import { FC } from 'react';
 import TonLogo from '../assets/ton.png';
+import { port } from '../constants/const.g';
 
 type TransactionsUser = {
   id: number;
@@ -17,7 +18,7 @@ export const Profile = () => {
 
   const { data } = useQuery({
     queryKey: ['profile'],
-    queryFn: async () => axios.get<TransactionsUser[]>(`http://127.0.0.1:8080/api/transaction/${address}`),
+    queryFn: async () => axios.get<TransactionsUser[]>(`${port}/api/transaction/${address}`),
     select: (data) => data.data,
   });
 

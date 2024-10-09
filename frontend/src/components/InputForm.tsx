@@ -64,7 +64,7 @@ export const InputForm = () => {
 
       console.log(JSON.stringify(json));
 
-      axios.post('http://127.0.0.1:8080/api/transaction', json);
+      axios.post(`${port}/api/transaction`, json);
     }
   };
 
