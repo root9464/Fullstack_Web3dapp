@@ -1,7 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { port } from '../constants/const.g';
 
 type ObjectType = {
   Name: string;
@@ -10,7 +9,7 @@ type ObjectType = {
 };
 
 const FnGetter = async () => {
-  return await axios.get<ObjectType[]>(`${port}/api/record`);
+  return await axios.get<ObjectType[]>(`https://anytapton.ru/go/api/record`);
 };
 
 export const getStatisticsValues = () => {
