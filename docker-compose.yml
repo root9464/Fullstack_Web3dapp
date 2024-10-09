@@ -27,6 +27,8 @@ services:
   frontend:
     build: ./frontend
     container_name: frontend
+    depends_on:
+      - db
     environment:
       VITE_PORT_BACKEND: http://127.0.0.1:6060
       VITE_ADDRESS_WALLET: UQCmVMcJSagWMqMBVruVbxSfha3ebbbcRFvSCOzMzvP_BDpW
