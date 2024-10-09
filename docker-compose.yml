@@ -24,6 +24,15 @@ services:
     ports:
       - 6060:6060
 
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    environment:
+      VITE_PORT_BACKEND: http://127.0.0.1:6060
+      VITE_ADDRESS_WALLET: UQCmVMcJSagWMqMBVruVbxSfha3ebbbcRFvSCOzMzvP_BDpW
+    ports:
+      - 8080:8080
+
 volumes:
   postgres_data:
 
