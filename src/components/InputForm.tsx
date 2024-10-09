@@ -5,6 +5,7 @@ import axios from 'axios';
 import { Buffer } from 'buffer';
 import { FC, useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
+import { getStatisticsValues } from '../api/getStatisticsValues';
 import TonLogo from '../assets/ton.png';
 
 interface IForm {
@@ -36,7 +37,7 @@ export const InputForm = () => {
       validUntil: Math.floor(Date.now() / 1000) + 60,
       messages: [
         {
-          address: String(import.meta.env.VITE_ADDRESS_WALLET),
+          address: 'UQDyqtADIvFITLkNEOneET7-7pZ73EDkukL7Ru8_XDul5rrG',
           amount: toNano(data.value).toString(),
         },
       ],
@@ -44,20 +45,26 @@ export const InputForm = () => {
     const res = await tonConnectUI.sendTransaction(transaction);
 
     if (res) {
-      const json = {
-        header: {
-          hash: Cell.fromBoc(Buffer.from(res.boc, 'base64'))[0].hash().toString('hex'),
-        },
-        body: {
-          UserWalletAddress: 'UQDyqtADIvFITLkNEOneET7-7pZ73EDkukL7Ru8_XDul5rrG',
-          DepositeDate: formattedDateNow,
-          ReceivingDate: formattedDateEnd,
-          Amount: data.value,
-          Rewards: data.value * Math.pow(1 + activeButton / 100, 1), //1day = amount + 1%
-        },
+      const header = {
+        hash: Cell.fromBoc(Buffer.from(res.boc, 'base64'))[0].hash().toString('hex'),
       };
 
-      axios.post('https://localhost/api/transaction', json);
+      const body = {
+        user_wallet_address: address,
+        deposite_date: formattedDateNow,
+        receiving_date: formattedDateEnd,
+        amount: String(data.value),
+        rewards: String(data.value * Math.pow(1 + activeButton / 100, 1)), // 1 day = amount + 1%
+      };
+
+      const json = {
+        header: header,
+        body: body,
+      };
+
+      console.log(JSON.stringify(json));
+
+      axios.post('http://127.0.0.1:6060/api/transaction', json);
     }
   };
 
@@ -102,18 +109,22 @@ export const InputForm = () => {
   );
 };
 
-const HeaderForm: FC<{ activeButton: number }> = ({ activeButton }) => (
-  <div className='w-full h-full flex flex-row justify-between'>
-    <div className='w-max h-full flex flex-row items-center gap-x-3'>
-      <img src={TonLogo} alt='' className='w-5' />
-      <h2>TON</h2>
+const HeaderForm: FC<{ activeButton: number }> = ({ activeButton }) => {
+  const { data, isLoading, isSuccess } = getStatisticsValues();
+
+  return (
+    <div className='w-full h-full flex flex-row justify-between'>
+      <div className='w-max h-full flex flex-row items-center gap-x-3'>
+        <img src={TonLogo} alt='' className='w-5' />
+        <h2>TON</h2>
+      </div>
+      <div className='w-max h-full flex flex-row items-center gap-x-3'>
+        <p>${isLoading ? 'Loading...' : isSuccess && data ? data[2].Total : '0'}К</p>
+        <p>${activeButton === 1 ? 1 : activeButton === 7 ? 9 : 40}%</p>
+      </div>
     </div>
-    <div className='w-max h-full flex flex-row items-center gap-x-3'>
-      <p>103.58К</p>
-      <p>${activeButton === 1 ? 1 : activeButton === 7 ? 9 : 40}%</p>
-    </div>
-  </div>
-);
+  );
+};
 
 type ToggleButtonProps = {
   label: string;

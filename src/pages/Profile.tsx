@@ -4,45 +4,36 @@ import axios from 'axios';
 import { FC } from 'react';
 import TonLogo from '../assets/ton.png';
 
-type Body = {
+type TransactionsUser = {
   id: number;
   user_wallet_address: string;
   deposite_date: string;
   receiving_date: string;
-  amount: number;
-  rewards: number;
+  amount: string;
+  rewards: string;
 };
-
-type Data = {
-  id: number;
-  user_wallet_address: string;
-  hash: string;
-  body_id: number;
-  Body: Body;
-};
-
 export const Profile = () => {
   const address = useTonAddress();
 
   const { data } = useQuery({
     queryKey: ['profile'],
-    queryFn: async () => axios.get<Data[]>(`https://localhost/api/transaction/${address}`),
+    queryFn: async () => axios.get<TransactionsUser[]>(`http://127.0.0.1:6060/api/transaction/${address}`),
     select: (data) => data.data,
-    enabled: !!address,
   });
 
   console.log(data);
 
   return (
-    <div className='w-full h-max mt-9 px-6 '>
+    <div className='w-full h-screen mt-9 px-6 '>
       <div className='w-full h-max max-h-[700px] overflow-y-scroll flex flex-col gap-y-4'>
         {data?.map((item) => (
           <TransactionBLock
             key={item.id}
-            amount={item.Body.amount}
-            rewards={item.Body.rewards}
-            depositDate={item.Body.deposite_date}
-            receivingDate={item.Body.receiving_date}
+            id={item.id}
+            amount={item.amount}
+            rewards={item.rewards}
+            depositDate={item.deposite_date}
+            receivingDate={item.receiving_date}
           />
         ))}
       </div>
@@ -51,8 +42,9 @@ export const Profile = () => {
 };
 
 type TransactionBLockProps = {
-  amount: number;
-  rewards: number;
+  id: number;
+  amount: string;
+  rewards: string;
   depositDate: string;
   receivingDate: string;
 };
@@ -69,7 +61,7 @@ const TransactionBLock: FC<TransactionBLockProps> = ({ amount, rewards, depositD
       <p>Rewards: {rewards} TON</p>
     </div>
 
-    <div className='col-span-1 row-span-1 flex flex-col gap-2'>
+    <div className='col-span-1 row-span-1 flex flex-col gap-2 w-max'>
       <p>Deposit Date: {depositDate}</p>
       <p>Receiving Date: {receivingDate}</p>
     </div>
