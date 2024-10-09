@@ -9,7 +9,7 @@ type ObjectType = {
 };
 
 const FnGetter = async () => {
-  return await axios.get<ObjectType[]>('http://127.0.0.1:6060/api/record');
+  return await axios.get<ObjectType[]>('http://127.0.0.1:8080/api/record');
 };
 
 export const getStatisticsValues = () => {
