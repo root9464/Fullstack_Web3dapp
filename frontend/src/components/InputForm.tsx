@@ -122,7 +122,19 @@ export const InputForm = () => {
 const HeaderForm: FC<{ activeButton: number; value: number }> = ({ activeButton, value }) => {
   const { data, isLoading, isSuccess } = getStatisticsValues();
   const percent: number = activeButton === 1 ? 1 : activeButton === 7 ? 9 : 40;
-  const vals = activeButton === 1 && data ? (data[2].Total / 100).toFixed(2) : activeButton === 7 ? '67.23' : '109.74';
+  const vals =
+    data !== undefined && data !== null
+      ? (() => {
+          if (activeButton === 1) {
+            return Array.isArray(data[2].Total) ? (data[2].Total[0] / 100).toFixed(2) : 'Invalid data';
+          } else if (activeButton === 7) {
+            return Array.isArray(data[2].Total) && data[2].Total.length > 1 ? (data[2].Total[1] / 100).toFixed(2) : 'Invalid data';
+          } else {
+            return Array.isArray(data[2].Total) && data[2].Total.length > 2 ? (data[2].Total[2] / 100).toFixed(2) : 'Invalid data';
+          }
+        })()
+      : 'Invalid data';
+
   const calculatedValue = !isNaN(value) && !isNaN(percent) ? ((value * percent) / 100).toFixed(2) : '0.00';
 
   return (

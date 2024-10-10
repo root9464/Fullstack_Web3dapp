@@ -4,7 +4,7 @@ import axios from 'axios';
 
 type ObjectType = {
   Name: string;
-  Total: number;
+  Total: number | number[];
   Percent: number;
 };
 
