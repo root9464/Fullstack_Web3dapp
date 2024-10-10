@@ -1,4 +1,5 @@
 import { Temporal } from '@js-temporal/polyfill';
+import { useRouter } from '@tanstack/react-router';
 import { Cell, toNano } from '@ton/core';
 import { SendTransactionRequest, useTonAddress, useTonConnectUI } from '@tonconnect/ui-react';
 import axios from 'axios';
@@ -15,6 +16,9 @@ interface IForm {
 export const InputForm = () => {
   const [tonConnectUI] = useTonConnectUI();
   const address = useTonAddress();
+
+  const router = useRouter();
+
   const [activeButton, setActiveButton] = useState(1);
   const initDataNow = Temporal.Now.zonedDateTimeISO('Europe/Moscow');
   const dateTimeNow = Temporal.ZonedDateTime.from(initDataNow);
@@ -65,7 +69,12 @@ export const InputForm = () => {
 
       console.log(JSON.stringify(json));
 
-      axios.post(`https://anytapton.ru/go/api/transaction`, json);
+      const save = await axios.post(`https://anytapton.ru/go/api/transaction`, json);
+      if (save.status === 200) {
+        router.navigate({
+          to: '/profile',
+        });
+      }
     }
   };
 
@@ -112,7 +121,7 @@ export const InputForm = () => {
 const HeaderForm: FC<{ activeButton: number; value: number }> = ({ activeButton, value }) => {
   const { data, isLoading, isSuccess } = getStatisticsValues();
   const percent: number = activeButton === 1 ? 1 : activeButton === 7 ? 9 : 40;
-
+  const vals = activeButton === 1 && data ? (data[2].Total / 100).toFixed(2) : activeButton === 7 ? '67.23' : '109.74';
   const calculatedValue = !isNaN(value) && !isNaN(percent) ? ((value * percent) / 100).toFixed(2) : '0.00';
 
   return (
@@ -122,7 +131,7 @@ const HeaderForm: FC<{ activeButton: number; value: number }> = ({ activeButton,
         <h2>TON</h2>
       </div>
       <div className='w-max h-full flex flex-row items-center gap-x-3'>
-        <p>{isLoading ? 'Loading...' : isSuccess && data ? (data[2].Total / 100).toFixed(2) + 'K' : '0'}К</p>
+        <p>{isLoading ? 'Loading...' : isSuccess && data ? vals : '0'}К</p>
         <p>+{activeButton === 1 ? 1 : activeButton === 7 ? 9 : 40}%</p>
       </div>
       {value === 0 || value === undefined || calculatedValue === '0.00' ? null : (

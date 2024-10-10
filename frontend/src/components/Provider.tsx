@@ -2,7 +2,6 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { TonConnectUIProvider } from '@tonconnect/ui-react';
 import { routeTree } from '../routeTree.gen';
-
 declare module '@tanstack/react-router' {
   interface Register {
     router: typeof router;
@@ -14,7 +13,7 @@ const router = createRouter({ routeTree });
 export const Provider = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <TonConnectUIProvider manifestUrl='https://github.com/root9464/React_R/blob/main/manifest.json'>
+      <TonConnectUIProvider manifestUrl={'manif'}>
         <RouterProvider router={router} />
       </TonConnectUIProvider>
     </QueryClientProvider>
