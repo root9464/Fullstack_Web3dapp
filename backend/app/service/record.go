@@ -5,6 +5,7 @@ import (
 	"github.com/Fi44er/ton-backend/dto"
 	"github.com/Fi44er/ton-backend/model"
 	"github.com/gofiber/fiber/v2"
+	"github.com/lib/pq"
 )
 
 func Update(ctx *fiber.Ctx, req *dto.Record) error {
@@ -15,8 +16,12 @@ func Update(ctx *fiber.Ctx, req *dto.Record) error {
 	}
 
 	for i := range records {
-		updateData := req.Data[i]
-		if err := database.DB.Db.Model(&records[i]).Updates(&updateData).Error; err != nil {
+		item := req.Data[i]
+		updateRecord := model.Record{
+			Total:   pq.Int64Array(item.Total),
+			Percent: item.Percent,
+		}
+		if err := database.DB.Db.Model(&records[i]).Updates(&updateRecord).Error; err != nil {
 			return ctx.Status(500).JSON(fiber.Map{"error": err.Error()})
 		}
 	}
@@ -33,9 +38,35 @@ func GetRecords(ctx *fiber.Ctx) error {
 
 	if len(records) == 0 {
 		return ctx.Status(404).JSON(fiber.Map{"error": "Ни одной записи не найдено"})
-
 	}
-	return ctx.Status(200).JSON(records)
+
+	var transformedRecords []dto.ItemRes
+
+	for _, record := range records {
+		var total int64
+		for _, val := range record.Total {
+			total += val
+		}
+
+		var transformedRecord dto.ItemRes
+		if len(record.Total) > 1 {
+			transformedRecord = dto.ItemRes{
+				Name:    record.Name,
+				Total:   record.Total,
+				Percent: record.Percent,
+			}
+		} else {
+			transformedRecord = dto.ItemRes{
+				Name:    record.Name,
+				Total:   total,
+				Percent: record.Percent,
+			}
+		}
+
+		transformedRecords = append(transformedRecords, transformedRecord)
+	}
+
+	return ctx.Status(200).JSON(transformedRecords)
 }
 
 func UrlObj(ctx *fiber.Ctx) error {

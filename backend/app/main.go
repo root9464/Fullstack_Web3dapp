@@ -66,7 +66,7 @@ func main() {
 	}
 
 	c := cron.New()
-	c.AddFunc("0 0 * * *", func() {
+	c.AddFunc("0 0 * * *", func() { // 0 0 * * *
 		var records []model.Record
 		if err := db.Db.Find(&records).Error; err != nil {
 			log.Println("Error retrieving records:", err)
@@ -74,8 +74,12 @@ func main() {
 		}
 
 		for _, record := range records {
-			newTotal := record.Total + (record.Total * record.Percent / 100)
-			record.Total = newTotal
+			var newTotals []int64
+			for _, total := range record.Total {
+				newTotal := total + (total * record.Percent / 100)
+				newTotals = append(newTotals, newTotal)
+			}
+			record.Total = newTotals
 			if err := db.Db.Save(&record).Error; err != nil {
 				log.Println("Error updating record:", err)
 			}
