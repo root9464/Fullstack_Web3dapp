@@ -3,9 +3,9 @@ import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
 type ObjectType = {
-  Name: string;
-  Total: number | number[];
-  Percent: number;
+  name: string;
+  total: number | number[];
+  percent: number;
 };
 
 const FnGetter = async () => {

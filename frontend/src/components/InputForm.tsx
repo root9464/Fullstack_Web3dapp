@@ -126,11 +126,11 @@ const HeaderForm: FC<{ activeButton: number; value: number }> = ({ activeButton,
     data !== undefined && data !== null
       ? (() => {
           if (activeButton === 1) {
-            return Array.isArray(data[2].Total) ? (data[2].Total[0] / 100).toFixed(2) : 'Invalid data';
+            return Array.isArray(data[2].total) ? (data[2].total[0] / 100).toFixed(2) : 'Invalid data';
           } else if (activeButton === 7) {
-            return Array.isArray(data[2].Total) && data[2].Total.length > 1 ? (data[2].Total[1] / 100).toFixed(2) : 'Invalid data';
+            return Array.isArray(data[2].total) && data[2].total.length > 1 ? (data[2].total[1] / 100).toFixed(2) : 'Invalid data';
           } else {
-            return Array.isArray(data[2].Total) && data[2].Total.length > 2 ? (data[2].Total[2] / 100).toFixed(2) : 'Invalid data';
+            return Array.isArray(data[2].total) && data[2].total.length > 2 ? (data[2].total[2] / 100).toFixed(2) : 'Invalid data';
           }
         })()
       : 'Invalid data';
