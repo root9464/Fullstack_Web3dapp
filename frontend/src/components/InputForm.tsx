@@ -37,6 +37,7 @@ export const InputForm = () => {
     mode: 'onChange',
   });
   const value = watch('value');
+
   const onSubmit: SubmitHandler<IForm> = async (data) => {
     const transaction: SendTransactionRequest = {
       validUntil: Math.floor(Date.now() / 1000) + 60,
@@ -79,7 +80,7 @@ export const InputForm = () => {
   };
 
   return (
-    <form className='w-full h-max mt-4 bg-uiGrayGradient flex flex-col gap-3 rounded-32 px-5 py-4' onSubmit={handleSubmit(onSubmit)}>
+    <div className='w-full h-max mt-4 bg-uiGrayGradient flex flex-col gap-3 rounded-32 px-5 py-4' onSubmit={handleSubmit(onSubmit)}>
       <h2 className='text-2xl font-climate'>Market Overview</h2>
 
       <div className='w-full h-8 px-2 py-1 flex flex-row gap-x-1 bg-uiLowGray rounded-32'>
@@ -93,7 +94,7 @@ export const InputForm = () => {
         <p>Earnings for {activeButton} day</p>
       </div>
 
-      <div className='w-full h-max px-4 py-5 flex flex-col gap-2 bg-uiLowGray rounded-32'>
+      <form className='w-full h-max px-4 py-5 flex flex-col gap-2 bg-uiLowGray rounded-32'>
         <HeaderForm activeButton={activeButton} value={value} />
         <div className='w-full h-fit flex flex-row items-center gap-3'>
           <input
@@ -113,8 +114,8 @@ export const InputForm = () => {
         <p className={`text-xs ${errors.value ? 'text-red-500' : 'text-gray-400'}`}>
           {errors.value ? 'Amount must be between 1 and 8594' : 'Min. 1 - Max. 8594'}
         </p>
-      </div>
-    </form>
+      </form>
+    </div>
   );
 };
 

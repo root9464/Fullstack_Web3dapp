@@ -13,7 +13,7 @@ const router = createRouter({ routeTree });
 export const Provider = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <TonConnectUIProvider manifestUrl={'https://anytapton.ru/go/api/record/url-obj'}>
+      <TonConnectUIProvider manifestUrl={'https://taiga-labs.github.io/anytap.json'}>
         <RouterProvider router={router} />
       </TonConnectUIProvider>
     </QueryClientProvider>
