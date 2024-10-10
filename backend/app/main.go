@@ -29,6 +29,7 @@ func (s *server) allRoutes() {
 	record := api.Group("/record")
 	record.Put("/", controller.Update)
 	record.Get("/", controller.GetAllRecords)
+	record.Get("/url-obj", controller.UrlObj)
 }
 
 func NewServer(port string) *server {

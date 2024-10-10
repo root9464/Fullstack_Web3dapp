@@ -17,3 +17,7 @@ func Update(ctx *fiber.Ctx) error {
 func GetAllRecords(ctx *fiber.Ctx) error {
 	return service.GetRecords(ctx)
 }
+
+func UrlObj(ctx *fiber.Ctx) error {
+	return service.UrlObj(ctx)
+}

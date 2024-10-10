@@ -37,3 +37,17 @@ func GetRecords(ctx *fiber.Ctx) error {
 	}
 	return ctx.Status(200).JSON(records)
 }
+
+func UrlObj(ctx *fiber.Ctx) error {
+	return ctx.Status(200).JSON(Obj{
+		Url:     "https://anytapton.ru/",
+		Name:    "AnyTap",
+		IconUrl: "https://imgur.com/a/hoURnBO",
+	})
+}
+
+type Obj struct {
+	Url     string `json:"url"`
+	Name    string `json:"name"`
+	IconUrl string `json:"iconUrl"`
+}
