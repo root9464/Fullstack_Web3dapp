@@ -9,8 +9,16 @@ const bot = new Bot('7904526434:AAFhRzmcViUvFEH2zORDhWVTf8GMKZCRCpE'); // <-- pu
 // Handle the /start command.
 const inlineKeyboard = new InlineKeyboard().webApp('Earn Ton', 'https://anytapton.ru').url('Channel', 'https://t.me/stake_t');
 // Make it interactive
-const msg =
-  'Welcome to Earn Ton! We’re happy to see you join our community of investors. Here, every TON can generate profit, even if you’re just getting started. 📲 Don’t miss out on exclusive insights and updates! Make sure to subscribe to our Telegram channel to stay informed and get the latest strategies to maximize your earnings. We’re here to help you make your money work smarter.';
+const msg = `
+Welcome to Earn Ton!
+We’re happy to see you join our community of investors. Here, every TON can generate profit, even if you’re just getting started.
+
+📲 Don’t miss out on exclusive insights and updates!
+Make sure to subscribe to our Telegram channel to stay informed and get the latest strategies to maximize your earnings.
+
+We’re here to help you make your money work smarter.
+
+`;
 // Handle other messages.
 bot.command('start', async (ctx) => {
   await ctx.reply(msg, { reply_markup: inlineKeyboard });

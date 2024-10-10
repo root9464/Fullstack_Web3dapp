@@ -27,11 +27,12 @@ export const InputForm = () => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<IForm>({
     mode: 'onChange',
   });
-
+  const value = watch('value');
   const onSubmit: SubmitHandler<IForm> = async (data) => {
     const transaction: SendTransactionRequest = {
       validUntil: Math.floor(Date.now() / 1000) + 60,
@@ -84,12 +85,11 @@ export const InputForm = () => {
       </div>
 
       <div className='w-full h-max px-4 py-5 flex flex-col gap-2 bg-uiLowGray rounded-32'>
-        <HeaderForm activeButton={activeButton} />
+        <HeaderForm activeButton={activeButton} value={value} />
         <div className='w-full h-fit flex flex-row items-center gap-3'>
           <input
             type='text'
-            placeholder='Amount'
-            defaultValue={1}
+            placeholder='+1'
             {...register('value', {
               required: true,
               min: 0.01,
@@ -109,8 +109,9 @@ export const InputForm = () => {
   );
 };
 
-const HeaderForm: FC<{ activeButton: number }> = ({ activeButton }) => {
+const HeaderForm: FC<{ activeButton: number; value: number }> = ({ activeButton, value }) => {
   const { data, isLoading, isSuccess } = getStatisticsValues();
+  console.log(activeButton);
 
   return (
     <div className='w-full h-full flex flex-row justify-between relative'>
@@ -119,12 +120,14 @@ const HeaderForm: FC<{ activeButton: number }> = ({ activeButton }) => {
         <h2>TON</h2>
       </div>
       <div className='w-max h-full flex flex-row items-center gap-x-3'>
-        <p>${isLoading ? 'Loading...' : isSuccess && data ? data[2].Total : '0'}К</p>
-        <p>${activeButton === 1 ? 1 : activeButton === 7 ? 9 : 40}%</p>
+        <p>{isLoading ? 'Loading...' : isSuccess && data ? data[2].Total : '0'}К</p>
+        <p>+{activeButton === 1 ? 1 : activeButton === 7 ? 9 : 40}%</p>
       </div>
-      <div className='w-max h-full flex flex-row items-center gap-x-3 border border-[#0FA958] rounded-md absolute right-0 top-8'>
-        <p>+ {activeButton}</p>
-      </div>
+      {activeButton === 0 || activeButton === undefined ? null : (
+        <div className='w-max h-full flex flex-row items-center gap-x-3 border border-[#0FA958] rounded-md absolute right-0 top-8'>
+          <p>{((value * activeButton) / 100).toFixed(2)}</p>
+        </div>
+      )}
     </div>
   );
 };

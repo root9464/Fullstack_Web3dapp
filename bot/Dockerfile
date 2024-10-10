@@ -1,7 +1,8 @@
-FROM node:14
+FROM oven/bun
 WORKDIR /app
 COPY package*.json ./
-RUN yarn install
+COPY bun.lockb ./
+RUN bun i
 COPY . .
 EXPOSE 3000
-CMD ["yarn", "start"]
+CMD ["bun", "start"]
