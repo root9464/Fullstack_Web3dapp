@@ -10,12 +10,12 @@ export const Dashboard = () => {
         <div className='w-full h-full px-2 py-[6px] bg-white bg-opacity-10 rounded-3xl flex flex-row justify-between items-center'>
           <div className='w-1/2 h-full px-5 py-2 bg-black flex justify-center items-start flex-col rounded-3xl'>
             <h3 className='text-gray-300 text-base'>Total Supply</h3>
-            <p className='text-white text-lg'>{isLoading ? 'Loading...' : isSuccess && data ? data[0].Total : '0'}$</p>
+            <p className='text-white text-lg'>{isLoading ? 'Loading...' : isSuccess && data ? data[0].Total.toLocaleString('de-DE') : '0'}$</p>
           </div>
 
           <div className='w-1/2 h-full px-5 py-2 bg-transparent flex justify-center items-start flex-col rounded-3xl'>
             <h3 className='text-gray-300 text-base'>Total Earn</h3>
-            <p className='text-white text-lg'>{isLoading ? 'Loading...' : isSuccess && data ? data[1].Total : '0'}$</p>
+            <p className='text-white text-lg'>{isLoading ? 'Loading...' : isSuccess && data ? data[1].Total.toLocaleString('de-DE') : '0'}$</p>
           </div>
         </div>
       </div>

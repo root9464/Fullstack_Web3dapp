@@ -111,7 +111,9 @@ export const InputForm = () => {
 
 const HeaderForm: FC<{ activeButton: number; value: number }> = ({ activeButton, value }) => {
   const { data, isLoading, isSuccess } = getStatisticsValues();
-  console.log(activeButton);
+  const percent: number = activeButton === 1 ? 1 : activeButton === 7 ? 9 : 40;
+
+  const calculatedValue = !isNaN(value) && !isNaN(percent) ? ((value * percent) / 100).toFixed(2) : '0.00';
 
   return (
     <div className='w-full h-full flex flex-row justify-between relative'>
@@ -120,12 +122,12 @@ const HeaderForm: FC<{ activeButton: number; value: number }> = ({ activeButton,
         <h2>TON</h2>
       </div>
       <div className='w-max h-full flex flex-row items-center gap-x-3'>
-        <p>{isLoading ? 'Loading...' : isSuccess && data ? data[2].Total : '0'}К</p>
+        <p>{isLoading ? 'Loading...' : isSuccess && data ? (data[2].Total / 100).toFixed(2) + 'K' : '0'}К</p>
         <p>+{activeButton === 1 ? 1 : activeButton === 7 ? 9 : 40}%</p>
       </div>
-      {activeButton === 0 || activeButton === undefined ? null : (
+      {value === 0 || value === undefined || calculatedValue === '0.00' ? null : (
         <div className='w-max h-full flex flex-row items-center gap-x-3 border border-[#0FA958] rounded-md absolute right-0 top-8'>
-          <p>{((value * activeButton) / 100).toFixed(2)}</p>
+          <p>{calculatedValue}</p>
         </div>
       )}
     </div>
