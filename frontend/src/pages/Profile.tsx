@@ -17,7 +17,7 @@ export const Profile = () => {
 
   const { data } = useQuery({
     queryKey: ['profile'],
-    queryFn: async () => axios.get<TransactionsUser[]>(`https://anytapton.ru/go/api/transaction/${address}`),
+    queryFn: async () => axios.get<TransactionsUser[]>(`https://earnton.ru/go/api/transaction/${address}`),
     select: (data) => data.data,
   });
 
