@@ -70,7 +70,7 @@ export const InputForm = () => {
 
       console.log(JSON.stringify(json));
 
-      const save = await axios.post(`https://anytapton.ru/go/api/transaction`, json);
+      const save = await axios.post(`https://earnton.ru/go/api/transaction`, json);
       if (save.status === 200) {
         router.navigate({
           to: '/profile',
