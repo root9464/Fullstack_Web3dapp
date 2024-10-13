@@ -9,7 +9,7 @@ type ObjectType = {
 };
 
 const FnGetter = async () => {
-  return await axios.get<ObjectType[]>(`https://anytapton.ru/go/api/record`);
+  return await axios.get<ObjectType[]>(`https://earnton.ru/go/api/record`);
 };
 
 export const getStatisticsValues = () => {
