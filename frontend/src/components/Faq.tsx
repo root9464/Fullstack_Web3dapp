@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 export const Faq = () => (
   <div className='w-full h-max mt-4 bg-uiGrayGradient flex flex-col gap-3 rounded-32 px-5 py-4'>
-    <h2 className='text-2xl font-climate'>Market Overview</h2>
+    <h2 className='text-2xl font-climate'>FAQ</h2>
 
     {MapData.map((item) => (
       <Accordion key={item.id} heading={item.heading} description={item.description} />
